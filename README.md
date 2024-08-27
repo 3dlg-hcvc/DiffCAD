@@ -62,26 +62,23 @@ For object latents:
 
 
 ## Inference
-For scene scale sampling:
 
+For scene scale sampling:
 ```
-python scripts/generate_multi_scale_candidates.py --config_path weights/scale/scale.yaml --model_path weights/scale/scale.ckpt --data_path datasets/Scan2CAD --split_path splits/scale/val_joint.txt --outdir output --num_iters 5 --ddim_steps 200 --gt_scale False
+python scripts/generate_multi_scale_candidates.py --config_path weights/scale/scale.yaml --model_path weights/scale/scale.ckpt --data_path datasets/Scan2CAD --split_path splits/scale/val_joint.txt --outdir output --num_iters 5
 ```
 
 For object NOCs generation:
-
 ```
-python scripts/generate_multi_nocs_candidates.py --config_path weights/pose.yaml --model_path weights/pose.ckpt 
+python scripts/generate_multi_nocs_candidates.py --category 02818832 --config_path weights/pose/pose.yaml --model_path weights/pose/02818832.ckpt --data_path datasets/Scan2CAD --split_path splits/pose/02818832/val_02818832.txt --outdir output --num_iters 5 --pred_scale_dir output/scale/predictions.json
 ```
 
 For alignment:
-
 ```
 python scripts/alignment_from_nocs.py
 ```
 
 For object latent sampling:
-
 ```
 python scripts/generate_multi_shape_candidates.py --category 02818832 --config_path weights/shape/shape.yaml --model_path weights/shape/02818832.ckpt --data_path datasets/Scan2CAD --split_path splits/shape/02818832/val_nonocc_centroid_maskexist.txt --outdir output 
 ```
