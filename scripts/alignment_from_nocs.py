@@ -134,6 +134,12 @@ def se(s_est, s_gt):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    
+    parser.add_argument(
+        "--category",
+        type=str,
+        default=None
+    )
 
     parser.add_argument(
         "--prediction_path",
@@ -188,7 +194,7 @@ if __name__ == "__main__":
     with open(opt.split_path, 'r') as f:
         split_lines = f.read().splitlines()
 
-    os.makedirs(opt.outdir, exist_ok=True)
+    os.makedirs(os.path.join(opt.outdir, opt.category), exist_ok=True)
 
     res = []
     tes = []
@@ -276,18 +282,18 @@ if __name__ == "__main__":
             best_pred_nocs = best_nocss[best_rat_idx]
 
             # save the depth
-            depth_fname = os.path.join(opt.outdir, scene_info + '_depth_input.ply')
+            depth_fname = os.path.join(opt.outdir, opt.category, scene_info + '_depth_input.ply')
 
             o3d.io.write_point_cloud("{}".format(depth_fname), ori_cloud_ply, write_ascii=False)
 
-            pred_fname = os.path.join(opt.outdir, scene_info + '_best_pred.ply')
+            pred_fname = os.path.join(opt.outdir, opt.category, scene_info + '_best_pred.ply')
             pcd_pred = o3d.geometry.PointCloud()
             pcd_pred.points = o3d.utility.Vector3dVector(best_pred_nocs)
 
             o3d.io.write_point_cloud("{}".format(pred_fname), pcd_pred, write_ascii=False)
 
             transformed = (best_transform_selected@to_homo(best_pred_nocs).T).T[:, :3]
-            pred_trans_fname = os.path.join(opt.outdir, scene_info + '_best_pred_transformed.ply')
+            pred_trans_fname = os.path.join(opt.outdir, opt.category, scene_info + '_best_pred_transformed.ply')
             pcd_pred_trans = o3d.geometry.PointCloud()
             pcd_pred_trans.points = o3d.utility.Vector3dVector(transformed)
 
@@ -319,5 +325,5 @@ if __name__ == "__main__":
             prediction[scene_info]['scale_err'] = scale_err.tolist()
 
 
-    with open(os.path.join(opt.outdir, 'pose_predictions.json'), 'w', encoding='utf-8') as f:
+    with open(os.path.join(opt.outdir, f'pose_predictions_{opt.category}.json'), 'w', encoding='utf-8') as f:
         json.dump(prediction, f, ensure_ascii=False, indent=2)

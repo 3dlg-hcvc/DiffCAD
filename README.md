@@ -68,14 +68,14 @@ For scene scale sampling:
 python scripts/generate_multi_scale_candidates.py --config_path weights/scale/scale.yaml --model_path weights/scale/scale.ckpt --data_path datasets/Scan2CAD --split_path splits/scale/val_joint.txt --outdir output --num_iters 5
 ```
 
-For object NOCs generation:
+For object NOCs generation (per category):
 ```
-python scripts/generate_multi_nocs_candidates.py --category 02818832 --config_path weights/pose/pose.yaml --model_path weights/pose/02818832.ckpt --data_path datasets/Scan2CAD --split_path splits/pose/02818832/val_02818832.txt --outdir output --num_iters 5 --pred_scale_dir output/scale/predictions.json
+python scripts/generate_multi_nocs_candidates.py --category 02818832 --config_path weights/pose/pose.yaml --model_path weights/pose/02818832.ckpt --data_path datasets/Scan2CAD --split_path splits/pose/02818832/val_nonocc_centroid_maskexist.txt --outdir output/nocs --num_iters 5 --pred_scale_dir output/scale/predictions.json
 ```
 
-For alignment:
+For alignment (per category):
 ```
-python scripts/alignment_from_nocs.py
+python scripts/alignment_from_nocs.py --category 02818832 --prediction_path output/nocs/02818832 --pose_gt_root datasets/Scan2CAD/val_pose_gt/scan2cad_val_02818832.json --mesh_root /project/3dlg-hcvc/diorama/diffcad/object_meshes/02818832 --split_path splits/pose/02818832/val_nonocc_centroid_maskexist.txt --outdir output/pose --num_iters 5
 ```
 
 For object latent sampling:

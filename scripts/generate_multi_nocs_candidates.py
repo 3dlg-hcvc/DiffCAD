@@ -186,7 +186,7 @@ if __name__ == "__main__":
         scales_subset = []
 
         for x in range(opt.num_iters):
-            scales_subset.append(scales_fullset[scene_id + ' ' + frame_idx][str(x)][0])
+            scales_subset.append(scales_fullset[opt.category + '_' + scene_id + ' ' + frame_idx][str(x)])
 
         scales_subset = sorted(scales_subset)
         print('number of scales per-scene: ', len(scales_subset))
@@ -221,6 +221,8 @@ if __name__ == "__main__":
 
             target_depth = depth * mask_ero.astype(np.uint8)
             
+            cam_K = np.asarray([434.98, 0.0, 239.36, 0.0, 434.05, 182.2, 0.0, 0.0, 1.0], dtype=np.float32).reshape(3, 3)
+            intr = o3d.camera.PinholeCameraIntrinsic(480, 360, cam_K)
             if opt.gt_pose:
                 target_depth_gt = depth_gt * mask_ero.astype(np.uint8)
                 target_depth_gt = o3d.geometry.Image(target_depth_gt)
@@ -229,8 +231,6 @@ if __name__ == "__main__":
 
             target_depth = o3d.geometry.Image(target_depth)
             target_depth_full = o3d.geometry.Image(depth)
-            cam_K = np.asarray([434.98, 0.0, 239.36, 0.0, 434.05, 182.2, 0.0, 0.0, 1.0], dtype=np.float32).reshape(3, 3)
-            intr = o3d.camera.PinholeCameraIntrinsic(480, 360, cam_K)
             pcd_orig = o3d.geometry.PointCloud.create_from_depth_image(target_depth, intr)
 
             ori_cloud = np.asarray(pcd_orig.points)

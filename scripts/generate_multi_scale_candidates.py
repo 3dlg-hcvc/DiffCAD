@@ -50,12 +50,6 @@ def load_model_from_config(config, ckpt, verbose=False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    
-    parser.add_argument(
-        "--category",
-        type=str,
-        default="02818832"
-    )
 
     parser.add_argument(
         "--config_path",
@@ -154,6 +148,8 @@ if __name__ == "__main__":
                 for line in tqdm(split_lines):
                     # read the target frame
                     scene_id, frame_idx = line.split()
+                    category = scene_id.split('_')[0]
+                    scene_id = '_'.join(scene_id.split('_')[1:])
                     scene_info = scene_id + '_' + frame_idx
                     frame_id, mesh_id, inst_id = frame_idx.split('_')
                     prediction[scene_info] = {}
@@ -175,7 +171,7 @@ if __name__ == "__main__":
                     depth_pred_input = torch.from_numpy(depth)[None]
                     depth_pred_input = rz(depth_pred_input).to(device)
 
-                    mask_fname = os.path.join(opt.data_path, "ODISEPredictions_NEW", scene_id, opt.category, frame_idx+'.png')
+                    mask_fname = os.path.join(opt.data_path, "ODISEPredictions_NEW", scene_id, category, frame_idx+'.png')
                     mask_full = cv2.imread(mask_fname, -1) / 255
 
                     mask = torch.from_numpy(mask_full).unsqueeze(0).unsqueeze(0).float()
