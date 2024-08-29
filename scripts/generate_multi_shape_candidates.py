@@ -92,8 +92,7 @@ if __name__ == "__main__":
     config = OmegaConf.load(opt.config_path)
 
     print("evaluate model with parameterization of {}".format(config.model.params.parameterization))
-
-    model_basename = opt.model_path.split('/')[-3]
+    
     model_path = opt.model_path
 
     ckpt_name = model_path.split('/')[-1].split('.')[0]
@@ -120,7 +119,7 @@ if __name__ == "__main__":
 
     print("Loaded total {} latents".format(latent_joint.shape[0]))
 
-    output_path = os.path.join(opt.outdir, model_basename, ckpt_name)
+    output_path = os.path.join(opt.outdir, ckpt_name)
     os.makedirs(output_path, exist_ok=True)
 
     all_samples = list()
