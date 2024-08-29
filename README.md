@@ -80,7 +80,12 @@ python scripts/alignment_from_nocs.py --category 02818832 --prediction_path outp
 
 For object latent sampling:
 ```
-python scripts/generate_multi_shape_candidates.py --category 02818832 --config_path weights/shape/shape.yaml --model_path weights/shape/02818832.ckpt --data_path datasets/Scan2CAD --split_path splits/shape/02818832/val_nonocc_centroid_maskexist.txt --outdir output 
+python scripts/generate_multi_shape_candidates.py --category 02818832 --config_path weights/shape/shape.yaml --model_path weights/shape/02818832.ckpt --data_path datasets/Scan2CAD --ply_path output/nocs/02818832 --split_path splits/shape/02818832/val_nonocc_centroid_maskexist.txt --outdir output/shape --num_iters 5 --latent_root /project/3dlg-hcvc/diorama/diffcad/object_latents/02818832/latents_train
+```
+
+For evaluation
+```
+python scripts/eval_alignments.py --category 02818832 --prediction_path output/pose/pose_predictions_02818832.json --data_path datasets/Scan2CAD --pose_gt_path datasets/Scan2CAD/val_pose_gt/scan2cad_val_02818832.json --split_path splits/pose/02818832/val_02818832.txt --mesh_data_path /project/3dlg-hcvc/diorama/diffcad/object_meshes/02818832 --full_annotation_path datasets/Scan2CAD/full_annotations.json
 ```
 
 

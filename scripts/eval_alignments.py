@@ -226,7 +226,7 @@ def eval_alignment(opts, splits, gt_annos, pose_predictions, pose_gts):
         pose_recalib = gt_pose @ offset
         t_gt, q_gt, s_gt, R_gt = decompose_mat4(pose_recalib)
         try:
-            pose = np.asarray(pose_predictions[scene_info]["pose"]).reshape(4, 4)
+            pose = np.asarray(pose_predictions[scene_info]["predicted_pose"]).reshape(4, 4)
             poses.append(pose)
             t_pred, q_pred, s_pred, R_pred = decompose_mat4(pose)
             rot_err = rotation_error(R_pred, R_gt, sym=sym_i)
