@@ -5,3 +5,7 @@ log/
 wandb/
 .vscode/
 *.ckpt
+
+datasets
+weights
+output
