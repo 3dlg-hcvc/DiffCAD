@@ -9,3 +9,5 @@ wandb/
 datasets
 weights
 output
+output_redo
+splits_redo

@@ -65,7 +65,7 @@ For object latents:
 
 For scene scale sampling:
 ```
-python scripts/generate_multi_scale_candidates.py --config_path weights/scale/scale.yaml --model_path weights/scale/scale.ckpt --data_path datasets/Scan2CAD --split_path splits/scale/val_joint.txt --outdir output --num_iters 5
+python scripts/generate_multi_scale_candidates.py --config_path weights/scale/scale.yaml --model_path weights/scale/scale.ckpt --data_path datasets/Scan2CAD --split_path splits_redo/scale/val_joint.txt --outdir output_redo --num_iters 10 --mask SEEM_redo
 ```
 
 For object NOCs generation (per category):

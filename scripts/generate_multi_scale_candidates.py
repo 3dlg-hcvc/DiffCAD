@@ -102,6 +102,13 @@ if __name__ == "__main__":
         default=False,
         help="whether have access to ground truth scale",
     )
+    
+    parser.add_argument(
+        "--mask",
+        type=str,
+        default="ODISEPredictions_NEW",
+        help="pred mask option",
+    )
 
 
     opt = parser.parse_args()
@@ -171,7 +178,7 @@ if __name__ == "__main__":
                     depth_pred_input = torch.from_numpy(depth)[None]
                     depth_pred_input = rz(depth_pred_input).to(device)
 
-                    mask_fname = os.path.join(opt.data_path, "ODISEPredictions_NEW", scene_id, category, frame_idx+'.png')
+                    mask_fname = os.path.join(opt.data_path, opt.mask, scene_id, category, frame_idx+'.png')
                     mask_full = cv2.imread(mask_fname, -1) / 255
 
                     mask = torch.from_numpy(mask_full).unsqueeze(0).unsqueeze(0).float()

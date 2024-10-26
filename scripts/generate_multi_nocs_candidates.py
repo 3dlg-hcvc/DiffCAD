@@ -144,6 +144,13 @@ if __name__ == "__main__":
         "--pred_scale_dir",
         type=str,
     )
+    
+    parser.add_argument(
+        "--mask",
+        type=str,
+        default="ODISEPredictions_NEW",
+        help="pred mask option",
+    )
 
     opt = parser.parse_args()
 
@@ -210,7 +217,7 @@ if __name__ == "__main__":
             depth = (depth * 1000)
             depth = (depth / depth_aug_scalar).astype(np.uint16)
 
-            mask_fname = os.path.join(opt.data_path, "ODISEPredictions_NEW", scene_id, opt.category, frame_idx+'.png')
+            mask_fname = os.path.join(opt.data_path, opt.mask, scene_id, opt.category, frame_idx+'.png')
             mask = cv2.imread(mask_fname, -1) / 255
 
             mask = torch.from_numpy(mask).unsqueeze(0).unsqueeze(0)
