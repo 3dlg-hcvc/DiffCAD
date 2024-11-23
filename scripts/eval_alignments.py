@@ -253,7 +253,9 @@ def eval_alignment(opts, splits, gt_annos, pose_predictions, pose_gts):
     avg_tes = np.asarray(total_te).mean()
     avg_ses = np.asarray(total_se).mean()
     print("valid preds {}; RE {}; TE {}; SE {}".format(len(total_re), avg_res, avg_tes, avg_ses))
-    print("total item {}; TP: {}".format(len(tps), np.asarray(tps).mean()))
+    print(f"total item {len(tps)}; TP: {np.asarray(tps).mean()*100:.2f}")
+    
+    return tps
 
 
 def eval_alignment_roca(opts, all_scene_ids, roca_per_frame, target_class, gt_annos, gt_poses):
@@ -430,9 +432,12 @@ if __name__ == "__main__":
     with open(opt.full_annotation_path, 'r') as f:
         full_annos = json.load(f)
     
-    eval_alignment(opt, splits, full_annos, pose_predictions, pose_gts)
+    acc = eval_alignment(opt, splits, full_annos, pose_predictions, pose_gts)
     
-    with open(opt.roca_prediction, 'r') as f:
-        roca_predictions = json.load(f)
+    with open(f"{os.path.dirname(opt.prediction_path)}/acc_{opt.category}.txt", 'w') as f:
+        f.write('\n'.join(map(str, acc)))
+    
+    # with open(opt.roca_prediction, 'r') as f:
+    #     roca_predictions = json.load(f)
         
-    eval_alignment_roca(opt, splits, roca_predictions, opt.category, full_annos, pose_gts)
+    # eval_alignment_roca(opt, splits, roca_predictions, opt.category, full_annos, pose_gts)

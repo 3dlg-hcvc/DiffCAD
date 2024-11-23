@@ -245,7 +245,7 @@ if __name__ == "__main__":
             ori_cloud_normalized = (ori_cloud - ori_cloud.min(axis=0)) / ((ori_cloud.max(axis=0) - ori_cloud.min(axis=0)).max() + 1e-15)
 
             sample_num_pc = 1024
-            indices_pc = np.random.choice(ori_cloud.shape[0], size=sample_num_pc, replace=False)
+            indices_pc = np.random.choice(ori_cloud.shape[0], size=sample_num_pc, replace=True)
             ori_cloud = ori_cloud[indices_pc, :]
             ori_cloud_normalized = ori_cloud_normalized[indices_pc, :]
 
